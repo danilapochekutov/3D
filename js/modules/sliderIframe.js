@@ -1,7 +1,5 @@
-function sliderIframe(slider1) {
-	const cryptoPioneer = document.querySelector(slider1);
-
-	Object.assign(cryptoPioneer, {
+function sliderIframe() {
+	const swiper = new Swiper(".crypto-pioneer__container", {
 		slidesPerView: 1,
 		centeredSlides: true,
 		spaceBetween: 30,
@@ -14,8 +12,6 @@ function sliderIframe(slider1) {
 			clickable: true,
 		},
 	});
-
-	cryptoPioneer.initialize();
 }
 
 export default sliderIframe;

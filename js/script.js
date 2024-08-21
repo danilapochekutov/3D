@@ -11,12 +11,12 @@ import sliderIframe from "./modules/sliderIframe.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	animation();
-	showreel(".showreel__container");
+	showreel();
 	guarantee(".guarantee__item__hide-768px");
 	slider(".move-it.slider");
 	sliderMobile(".move-it-mobile.slider-mobile");
 	portfolio();
 	reviews();
-	sliderIframe(".crypto-pioneer__container");
+	sliderIframe();
 	slider(".nfts.slider", { changeColor: true });
 });

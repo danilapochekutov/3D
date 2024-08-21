@@ -1,20 +1,23 @@
-function showreel(container) {
-	function updateSlidesPerView() {
-		const swiperContainer = document.querySelector(container);
-		const windowWidth = window.innerWidth;
-
-		if (windowWidth < 768) {
-			swiperContainer.setAttribute("slides-per-view", "1.2");
-			swiperContainer.setAttribute("space-between", "8");
-		} else {
-			swiperContainer.setAttribute("slides-per-view", "1.625");
-			swiperContainer.setAttribute("space-between", "24");
-		}
-	}
-
-	window.addEventListener("resize", updateSlidesPerView);
-	window.addEventListener("orientationchange", updateSlidesPerView);
-	window.addEventListener("load", updateSlidesPerView);
-	updateSlidesPerView();
+function showreel() {
+	const swiper = new Swiper(".showreel__container", {
+		slidesPerView: 1.625,
+		centeredSlides: true,
+		spaceBetween: 24,
+		autoplay: {
+			delay: 5000,
+			disableOnInteraction: false,
+		},
+		breakpoints: {
+			// when window width is >= 320px
+			320: {
+				slidesPerView: 1.2,
+				spaceBetween: 8,
+			},
+			480: {
+				slidesPerView: 1.625,
+				spaceBetween: 24,
+			},
+		},
+	});
 }
 export default showreel;
