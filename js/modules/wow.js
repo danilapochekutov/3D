@@ -1,7 +1,3 @@
-// import Swiper from "swiper";
-// import Swiper from "./libs/swiper-bundle.min.js";
-// import { Navigation, Pagination } from "swiper/modules";
-
 function animation() {
 	let wow = new WOW({
 		boxClass: "wow",
@@ -76,7 +72,6 @@ function animation() {
 					slidesPerView: 1,
 					centeredSlides: true,
 					spaceBetween: 30,
-					// modules: [Navigation, Pagination],
 					pagination: {
 						el: ".feedback__pagination",
 						clickable: true,
