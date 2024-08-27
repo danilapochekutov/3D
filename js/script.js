@@ -1,6 +1,7 @@
 "use strict";
 
 import animation from "./modules/wow.js";
+import header from "./modules/header.js"
 import showreel from "./modules/showreel.js";
 import guarantee from "./modules/guarantee.js";
 import slider from "./modules/slider.js";
@@ -12,6 +13,7 @@ import sliderIframe from "./modules/sliderIframe.js";
 document.addEventListener("DOMContentLoaded", () => {
 	animation();
 	showreel();
+	header();
 	guarantee(".guarantee__item__hide-768px");
 	slider(".move-it.slider");
 	sliderMobile(".move-it-mobile.slider-mobile");
