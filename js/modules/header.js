@@ -50,7 +50,7 @@ function headerNav() {
             // Вычисляем ширину скроллбара
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.classList.add("no-scroll");
-            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            // document.body.style.paddingRight = `${scrollbarWidth}px`;
             if (header) {
                 const currentPadding = parseInt(getComputedStyle(header).paddingRight) || 180;
                 header.style.paddingRight = `${currentPadding + scrollbarWidth}px`;
