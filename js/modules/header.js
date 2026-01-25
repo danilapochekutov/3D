@@ -1,3 +1,12 @@
+function setRealViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+setRealViewportHeight();
+window.addEventListener('resize', setRealViewportHeight);
+window.addEventListener('orientationchange', setRealViewportHeight);
+
 function headerNav() {
     let isBurgerOpen = false;
     let isToggleLangDesktopOpen = false;
@@ -33,37 +42,58 @@ function headerNav() {
         overlay.classList.toggle("active");
     }
 
+    // Используется ТОЛЬКО на desktop
+    function preventBodyScroll(e) {
+        const mobileMenu = document.querySelector(".header__nav");
+        if (!mobileMenu || !mobileMenu.contains(e.target)) {
+            e.preventDefault();
+        }
+    }
+
     function toggleNoScroll() {
         const header = document.querySelector('.header');
         const toggleLang = document.querySelector('.toggle-lang__desktop');
-        const burger = document.querySelector('.burger__wrapper');
-        
+        const burgerWrapper = document.querySelector('.burger__wrapper');
+
         if (document.body.classList.contains("no-scroll")) {
             document.body.classList.remove("no-scroll");
-            document.body.style.removeProperty('padding-right');
-            if (header) header.style.removeProperty('max-width');
+
+            // снимаем touchmove всегда
+            document.body.removeEventListener(
+                'touchmove',
+                preventBodyScroll,
+                { passive: false }
+            );
+
             if (header) header.style.removeProperty('padding-right');
             if (toggleLang) toggleLang.style.removeProperty('right');
-            if (burger) burger.style.removeProperty('right');
-            
+            if (burgerWrapper) burgerWrapper.style.removeProperty('right');
+
         } else {
-            // Вычисляем ширину скроллбара
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.classList.add("no-scroll");
-            // document.body.style.paddingRight = `${scrollbarWidth}px`;
-            if (header) {
-                const currentPadding = parseInt(getComputedStyle(header).paddingRight) || 180;
-                header.style.paddingRight = `${currentPadding + scrollbarWidth}px`;
-                header.style.maxWidth = `${1695}px`;
+
+            // ВАЖНО: блокируем touchmove ТОЛЬКО НА DESKTOP
+            if (!isMobileDevice()) {
+                document.body.addEventListener(
+                    'touchmove',
+                    preventBodyScroll,
+                    { passive: false }
+                );
             }
+
+            if (header) {
+                header.style.paddingRight = `${scrollbarWidth}px`;
+            }
+
             if (toggleLang) {
-                const currentRight = parseInt(getComputedStyle(toggleLang).right) || 228;
+                const currentRight = parseInt(getComputedStyle(toggleLang).right) || 48;
                 toggleLang.style.right = `${currentRight + scrollbarWidth}px`;
             }
-            
-            if (burger) {
-                const currentRight = parseInt(getComputedStyle(burger).right) || 180;
-                burger.style.right = `${currentRight + scrollbarWidth}px`;
+
+            if (burgerWrapper && !isMobileDevice()) {
+                const currentRight = parseInt(getComputedStyle(burgerWrapper).right) || 0;
+                burgerWrapper.style.right = `${currentRight + scrollbarWidth}px`;
             }
         }
     }
@@ -196,40 +226,6 @@ function headerNav() {
             closeBurger();
         }
     });
-
-    // Отслеживание скролла для появления/исчезновения подложки
-    (function() {
-        let scrolled = false;
-        const threshold = 10; // Порог скролла в пикселях
-
-        function handleScroll() {
-            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (currentScroll > threshold && !scrolled) {
-            // Пользователь прокрутил вниз
-            document.body.classList.add('scrolled');
-            scrolled = true;
-            } else if (currentScroll <= threshold && scrolled) {
-            // Пользователь вернулся в начало
-            document.body.classList.remove('scrolled');
-            scrolled = false;
-            }
-        }
-
-        // Добавляем слушатель события с оптимизацией
-        let ticking = false;
-        window.addEventListener('scroll', function() {
-            if (!ticking) {
-            window.requestAnimationFrame(function() {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
-            }
-        }, { passive: true });
-
-        // Начальная проверка НЕ выполняется - компонент скрыт до первого скролла
-    })();
 }
 
 export default headerNav;
